@@ -1,0 +1,2 @@
+# Plurg-Trend-Extension
+ Chrome 
