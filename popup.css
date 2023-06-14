@@ -1,0 +1,288 @@
+:root {
+  --primary-color: #4070f4;
+  --secondary-color: #262938;
+  --secondary-light: #3e6981;
+  --secondary-hover: #385361;
+  --accent-color: #6b394c;
+  --grey: #616161;
+  --light-grey: #cecece;
+  --secondary-grey: #555555;
+  --dark-grey: #1b1b1b;
+  --box: rgba(0, 0, 0, 0.5);
+  --pale: #abc3cf;
+  --accent: #7a5261;
+}
+
+:root {
+  --mb-1: 0.5rem;
+  --mb-2: 1rem;
+  --mb-field: 1.4rem;
+  --mb-dir: 1.2rem;
+}
+
+*,
+::before,
+::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Ubuntu Mono", monospace;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-size: 1em;
+  color: var(--second-color);
+  line-height: 1.6;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  background: linear-gradient(
+    45deg,
+    var(--secondary-light),
+    var(--secondary-light)
+  );
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+h1,
+h2 {
+  font-weight: bold;
+  line-height: 1.2;
+  margin: 10px 0;
+}
+
+p {
+  margin: 10px 0;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+  color: var(--second-color);
+  font-size: 1.1em;
+  text-align: center;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  filter: invert(100%);
+  width: 26px;
+  height: 26px;
+}
+
+img:hover {
+  transform: scale(1.02);
+  opacity: 0.5;
+  transition: transform 0.2s ease-in;
+  cursor: pointer;
+}
+
+hr {
+  height: 1px;
+  margin: 10px 0;
+  opacity: 0.1;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.home {
+  color: white;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.home_cover {
+  min-width: 400px;
+  max-width: 400px;
+  overflow: hidden;
+}
+
+.home_cover .broad {
+  padding: 12px;
+  color: white;
+  display: flex;
+  flex-direction: column;
+}
+
+.home .top {
+  width: 100%;
+  height: 100px;
+  font-size: 1.1em;
+  color: white;
+  background-color: var(--secondary-color);
+  box-shadow: 0 2px 5px var(--dark-grey);
+  display: flex;
+  flex-direction: column;
+}
+
+.home .top .brand:hover {
+  color: var(--accent-color);
+  cursor: pointer;
+}
+
+.home .top .top_brand {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.home .top .top_note {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.home .top .note {
+  margin-right: 16px;
+}
+
+.home .top .edit_btn {
+  margin-right: 20px;
+  width: 22px;
+  height: auto;
+}
+
+.home .mid {
+  width: 100%;
+  height: 396px;
+  min-height: 396px;
+  margin: 2px 0;
+  font-size: 1.5em;
+  background-color: var(--secondary-color);
+  box-shadow: 0 3px 10px var(--dark-grey);
+  padding: 0;
+  padding: 8px;
+  overflow-y: scroll;
+}
+
+.home .thread li {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.home .thread li .thread_date {
+  font-size: 0.5em;
+  font-weight: bold;
+  color: var(--pale);
+}
+
+.home .thread li a {
+  text-align: start;
+  align-self: self-start;
+  font-size: 0.7em;
+  font-weight: bold;
+  color: green;
+}
+
+.home .thread li a:hover {
+  opacity: 0.5;
+  transition: transform 0.2s ease-in;
+  cursor: pointer;
+  color: var(--accent);
+}
+
+.home .thread li .thread_url {
+  cursor: pointer;
+}
+
+.home .thread li .thread_content {
+  font-size: 0.7em;
+}
+
+.home .thread hr {
+  margin: 4px 0;
+}
+
+.home .bottom {
+  height: 100px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  padding: 0;
+  box-shadow: 0 -1px 1px var(--dark-grey);
+  background-color: var(--secondary-color);
+}
+
+.home .bottom input {
+  width: 75%;
+  outline: none;
+  padding: 4px;
+  padding-left: 8px;
+  font-size: 1.1em;
+  color: white;
+  border: none;
+  background-color: var(--secondary-color);
+}
+
+.home .bottom .url_field {
+  width: 100%;
+}
+
+.home .bottom hr {
+  margin: 4px 0;
+}
+
+.home .bottom .msg_container {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+}
+
+.home .bottom .count_container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-right: 15px;
+}
+
+.home .bottom .count_container hr {
+  background-color: white;
+  opacity: 0.3;
+  height: 50%;
+  width: 1px;
+  margin: 0 10px;
+}
+
+.home .bottom img {
+  align-self: center;
+  margin-right: 8px;
+}
+
+.home .bottom .web_btn {
+  align-self: center;
+  margin-right: 16px;
+}

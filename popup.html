@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Sharing trending topics" />
+    <meta name="keywords" content="forum, chat, social" />
+    <meta name="author" content="Plurg Inc." />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Ubuntu&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" type="text/css" href="popup.css" />
+    <title>Plurg | Trends</title>
+  </head>
+  <body class="home">
+    <div class="home_cover">
+      <div class="broad top">
+        <div class="top_brand">
+          <a href="https://www.plurg.me" target="_blank" class="web_btn btns"
+            ><label class="brand">Plurg.me</label></a
+          >
+          <label class="count"><b class="ac_count"></b> Shared</label>
+        </div>
+        <hr />
+        <div class="top_note">
+          <marquee
+            class="note"
+            behavior="60%"
+            direction="left"
+            scrollamount="5"
+          >
+          </marquee>
+          <a href="https://www.plurg.me/#explore" target="_blank"
+            ><img src="./icons/edit.png" alt="" class="edit_btn"
+          /></a>
+          <img src="./icons/refresh.png" alt="" class="refresh_btn" />
+        </div>
+      </div>
+      <ul class="broad mid thread"></ul>
+      <div class="broad bottom">
+        <input
+          type="url"
+          class="url_field"
+          placeholder="URL, E.g: https://www.example.com"
+        />
+        <hr />
+        <div class="msg_container">
+          <input
+            type="text"
+            class="write_field"
+            maxlength="127"
+            placeholder="Write..."
+          />
+          <div class="count_container">
+            <hr />
+            <label class="word_count">0/127</label>
+          </div>
+          <img src="./icons/send.png" alt="" class="write_btn btns" />
+        </div>
+      </div>
+    </div>
+    <script src="popup.js"></script>
+  </body>
+</html>
