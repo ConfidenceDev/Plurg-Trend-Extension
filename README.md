@@ -1,10 +1,11 @@
 # Plurg-Trend-Extension
 
 Chrome Extension to Share Trending Topics and Links among all Users
- 
+
 # Website
 
-<a href="https://plurg.me">https://plurg.me</a>
+<a href="https://www.plurg.me">https://plurg.me</a> <br /> OR <br />
+<a href="https://plurg-trend.onrender.com">https://plurg-trend.onrender.com</a>
 
 # Contact
 
