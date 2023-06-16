@@ -1,5 +1,5 @@
 try {
-  const endpoint = "https://www.plurg.me/api/v1";
+  const endpoint = "https://plurg-trend.onrender.com/api/v1";
   chrome.runtime.onMessage.addListener(async (obj, sender, response) => {
     if (obj.tag === "back_thread") {
       await postTrends(obj);
