@@ -1,9 +1,8 @@
 {
   "manifest_version": 3,
   "name": "Plurg",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Share trending topics",
-  "permissions": ["activeTab"],
   "icons": {
     "32": "icons/plug-32.png",
     "64": "icons/plug-64.png",

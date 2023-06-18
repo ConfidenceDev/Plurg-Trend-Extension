@@ -6,18 +6,25 @@ const wordCount = document.querySelector(".word_count");
 const urlField = document.querySelector(".url_field");
 const writeField = document.querySelector(".write_field");
 const writeBtn = document.querySelector(".write_btn");
+
 const size = 10;
 let page = 0;
+let isRefresh = false;
 
 start();
 chrome.runtime.onMessage.addListener((obj, sender, response) => {
   if (obj.tag === "front_note") {
     note.innerText = obj.note;
+    isRefresh = false;
   } else if (obj.tag === "front_count") {
     count.innerText = obj.count === "add" ? ++count.innerText : obj.count;
+  } else if (obj.tag === "me_thread") {
+    let li = document.createElement("li");
+    threadList.append(addItem(obj, li));
+    threadList.scrollTop = threadList.scrollHeight;
   } else if (obj.tag === "front_thread") {
     let li = document.createElement("li");
-    threadList.appendChild(addItem(obj, li));
+    threadList.prepend(addItem(obj, li));
     threadList.scrollTop = threadList.scrollHeight;
   } else if (obj.tag === "front_more") {
     let li = document.createElement("li");
@@ -26,8 +33,12 @@ chrome.runtime.onMessage.addListener((obj, sender, response) => {
   response({ status: "ok" });
 });
 
-threadList.addEventListener("scroll", function () {
-  if (threadList.scrollTop === 0) {
+threadList.addEventListener("scroll", () => {
+  if (
+    threadList.scrollTop === 0 &&
+    threadList.children.length < count.innerText &&
+    !isRefresh
+  ) {
     ++page;
     chrome.runtime.sendMessage({ tag: "more", page: page, size: size });
   }
@@ -35,8 +46,9 @@ threadList.addEventListener("scroll", function () {
 
 refreshBtn.addEventListener("click", async (e) => {
   e.preventDefault();
+  threadList.replaceChildren();
+  isRefresh = true;
   page = 0;
-  threadList.innerHTML = "";
   start();
 });
 

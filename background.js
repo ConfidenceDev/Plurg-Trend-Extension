@@ -13,7 +13,6 @@ try {
   });
 
   async function getNote() {
-    console.log("Note");
     fetch(`${endpoint}/note`)
       .then((response) => {
         if (!response.ok) {
@@ -38,18 +37,18 @@ try {
         }
         return response.json();
       })
-      .then((data) => {
-        console.log(data);
-        const countObj = {
-          tag: "front_count",
-          count: data.totalElements,
-        };
-        sendToFront(countObj);
-        data = data.content;
-        data.forEach((item) => {
-          item.tag = tag === "more" ? "front_more" : "front_thread";
-          sendToFront(item);
-        });
+      .then((result) => {
+        if (result !== null) {
+          const countObj = {
+            tag: "front_count",
+            count: result.total,
+          };
+          sendToFront(countObj);
+          result.data.forEach((item) => {
+            item.tag = tag === "more" ? "front_more" : "front_thread";
+            sendToFront(item);
+          });
+        }
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -75,12 +74,14 @@ try {
           count: "add",
         };
         sendToFront(countObj);
-        data.tag = "front_thread";
+        data.tag = "me_thread";
         sendToFront(data);
       })
       .catch((error) => {
         console.error("Error:", error);
       });
+
+    return true;
   }
 
   function sendToFront(obj) {
