@@ -7,10 +7,9 @@ Chrome Extension to Share Trending Topics and Links among all Users
 <a href="https://www.plurg.me">https://plurg.me</a> <br /> OR <br />
 <a href="https://plurg-trend-web.onrender.com/">https://plurg-trend-web.onrender.com</a>
 
-<br />
-<br />
-SOURCE: <a href="https://github.com/ConfidenceDev/Plurg-Trend-Web">https://github.com/ConfidenceDev/Plurg-Trend-Web</a>
+# Website Landing Page - Vanilla JS
 
+<a href="https://github.com/ConfidenceDev/Plurg-Trend-Web">https://github.com/ConfidenceDev/Plurg-Trend-Web</a>
 
 # Server - Built in SpringBoot (JAVA)
 
