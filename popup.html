@@ -18,11 +18,14 @@
   <body class="home">
     <div class="home_cover">
       <div class="broad top">
-        <div class="top_brand">
+        <div class="top_nav">
           <a href="https://www.plurg.me" target="_blank" class="web_btn btns"
             ><label class="brand">Plurg.me</label></a
           >
-          <label class="count"><b class="ac_count"></b> Shared</label>
+          <div class="top_nav_menu">
+            <label class="count"><b class="ac_count"></b> Shared</label>
+            <img src="./icons/menu.png" alt="settings" class="settings" />
+          </div>
         </div>
         <hr />
         <div class="top_note">
@@ -39,7 +42,34 @@
           <img src="./icons/refresh.png" alt="" class="refresh_btn" />
         </div>
       </div>
-      <ul class="broad mid thread"></ul>
+      <div class="mid broad">
+        <div class="mid_menu">
+          <label># Select Avatar</label>
+          <ul class="avatars">
+            <li><img src="icons/avatars/mood_1.png" /></li>
+            <li><img src="icons/avatars/mood_2.png" /></li>
+            <li><img src="icons/avatars/mood_3.png" /></li>
+            <li><img src="icons/avatars/mood_4.png" /></li>
+            <li><img src="icons/avatars/mood_5.png" /></li>
+            <li><img src="icons/avatars/mood_6.png" /></li>
+            <li><img src="icons/avatars/mood_7.png" /></li>
+            <li><img src="icons/avatars/mood_8.png" /></li>
+            <li><img src="icons/avatars/mood_9.png" /></li>
+            <li><img src="icons/avatars/mood_10.png" /></li>
+          </ul>
+
+          <label># Username</label>
+          <input
+            type="text"
+            maxlength="32"
+            placeholder="Eg: Jonny"
+            class="username"
+          />
+          <label># ID</label>
+          <label class="session">...</label>
+        </div>
+        <ul class="thread"></ul>
+      </div>
       <div class="broad bottom">
         <input
           type="url"

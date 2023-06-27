@@ -1,16 +1,40 @@
 try {
   const endpoint = "https://plurg-trend.onrender.com/api/v1";
+  const store = "store";
+
   chrome.runtime.onMessage.addListener(async (obj, sender, response) => {
     if (obj.tag === "back_thread") {
       await postTrends(obj);
     } else if (obj.tag === "opened") {
+      loadStore();
       await getNote();
       await getTrends(obj.page, obj.size, obj.tag);
     } else if (obj.tag === "more") {
       await getTrends(obj.page, obj.size, obj.tag);
+    } else if (obj.tag === "delete") {
+      await deleteTrend(obj);
+    } else if (obj.tag === "store") {
+      chrome.storage.local.set({ [store]: obj });
+    } else if (obj.tag === "load") {
+      loadStore();
     }
     response({ status: "ok" });
   });
+
+  function loadStore() {
+    chrome.storage.local.get(store, (result) => {
+      let data = { ...result[store] };
+
+      data =
+        Object.keys(data).length !== 0
+          ? data
+          : {
+              tag: "store",
+              session: -1,
+            };
+      sendToFront(data);
+    });
+  }
 
   async function getNote() {
     fetch(`${endpoint}/note`)
@@ -82,6 +106,35 @@ try {
       });
 
     return true;
+  }
+
+  async function deleteTrend(obj) {
+    const requestOptions = {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+
+    fetch(`${endpoint}/delete/${obj.id}`, requestOptions)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        const countObj = {
+          tag: "front_count",
+          count: "delete",
+        };
+        sendToFront(countObj);
+        const deleteItem = {
+          tag: "front_delete",
+          id: obj.id,
+        };
+        sendToFront(deleteItem);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
   }
 
   function sendToFront(obj) {

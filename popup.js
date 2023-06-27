@@ -6,31 +6,115 @@ const wordCount = document.querySelector(".word_count");
 const urlField = document.querySelector(".url_field");
 const writeField = document.querySelector(".write_field");
 const writeBtn = document.querySelector(".write_btn");
+const settingsBtn = document.querySelector(".settings");
+const avatars = document.querySelector(".avatars");
+const midMenu = document.querySelector(".mid_menu");
+const usernameField = document.querySelector(".username");
+const sessionEl = document.querySelector(".session");
 
 const size = 10;
 let page = 0;
 let isRefresh = false;
+let isHome = true;
+let avatar = "mood_1.png";
+let username = "Anonymous";
+let session = Date.now().toString();
 
 start();
 chrome.runtime.onMessage.addListener((obj, sender, response) => {
-  if (obj.tag === "front_note") {
+  if (obj.tag === "store") {
+    loadMenu(obj);
+  } else if (obj.tag === "front_note") {
     note.innerText = obj.note;
     isRefresh = false;
   } else if (obj.tag === "front_count") {
-    count.innerText = obj.count === "add" ? ++count.innerText : obj.count;
+    count.innerText =
+      obj.count === "add"
+        ? ++count.innerText
+        : obj.count === "delete"
+        ? --count.innerText
+        : obj.count;
   } else if (obj.tag === "me_thread") {
-    let li = document.createElement("li");
-    threadList.append(addItem(obj, li));
+    threadList.append(addItem(obj));
     threadList.scrollTop = threadList.scrollHeight;
   } else if (obj.tag === "front_thread") {
-    let li = document.createElement("li");
-    threadList.prepend(addItem(obj, li));
+    threadList.prepend(addItem(obj));
     threadList.scrollTop = threadList.scrollHeight;
   } else if (obj.tag === "front_more") {
-    let li = document.createElement("li");
-    threadList.prepend(addItem(obj, li));
+    threadList.prepend(addItem(obj));
+  } else if (obj.tag === "front_delete") {
+    const liDel = threadList.querySelector(`li[data-id="${obj.id}"]`);
+    if (liDel) threadList.removeChild(liDel);
   }
   response({ status: "ok" });
+});
+
+settingsBtn.addEventListener("click", (e) => {
+  e.preventDefault();
+  if (isHome) {
+    settingsBtn.src = "./icons/close.png";
+    threadList.style.display = "none";
+    midMenu.style.display = "flex";
+    loadStore();
+    isHome = false;
+  } else {
+    settingsBtn.src = "./icons/menu.png";
+    midMenu.style.display = "none";
+    threadList.style.display = "flex";
+    saveStore(session);
+    isHome = true;
+  }
+});
+
+function loadMenu(obj) {
+  if (obj.session !== -1) {
+    avatar = obj.avatar;
+    username = obj.username;
+    session = obj.session === -1 ? session : obj.session;
+  }
+
+  if (obj.session === -1) saveStore(session);
+
+  usernameField.value = username;
+  sessionEl.innerText = session;
+  for (let i = 0; i < avatars.children.length; i++) {
+    if (
+      avatars.children[i].children[0].getAttribute("src") ===
+      `icons/avatars/${avatar}`
+    ) {
+      avatars.children[i].children[0].classList.add("av_sel");
+    }
+  }
+}
+
+function loadStore() {
+  chrome.runtime.sendMessage({ tag: "load" }, () => {});
+}
+
+function saveStore(sVal) {
+  const obj = {
+    tag: "store",
+    avatar: avatar,
+    username: username,
+    session: sVal,
+  };
+  chrome.runtime.sendMessage(obj, () => {});
+}
+
+avatars.addEventListener("click", (e) => {
+  e.preventDefault();
+
+  for (let i = 0; i < avatars.children.length; i++) {
+    avatars.children[i].children[0].classList.remove("av_sel");
+  }
+
+  e.target.classList.add("av_sel");
+  avatar = e.target.getAttribute("src").split("/")[2];
+});
+
+usernameField.addEventListener("blur", (e) => {
+  e.preventDefault();
+  username = usernameField.value;
 });
 
 threadList.addEventListener("scroll", () => {
@@ -84,6 +168,9 @@ writeBtn.addEventListener("click", async (e) => {
     tag: "back_thread",
     msg: content,
     url: url ? url : "",
+    avatar: avatar,
+    username: username,
+    session: session,
     date: new Date().toLocaleDateString("en-us", {
       weekday: "long",
       year: "numeric",
@@ -91,7 +178,6 @@ writeBtn.addEventListener("click", async (e) => {
       day: "numeric",
       hour: "numeric",
       minute: "numeric",
-      second: "numeric",
     }),
     utc: Date.now(),
   };
@@ -101,30 +187,47 @@ writeBtn.addEventListener("click", async (e) => {
   wordCount.innerText = "0/127";
 });
 
-function isValidUrl(urlString) {
-  const urlPattern = /^(https?):\/\/(www\.)?(\w+)(\.\w+)/;
-  return urlPattern.test(urlString);
-}
+function addItem(data) {
+  const li = document.createElement("li");
+  li.setAttribute("data-id", data.id);
+  li.innerHTML = `<div class="li_cover">
+          <img src="./icons/avatars/${data.avatar}" />
+          <div class="li_content">
+            <label class="thread_username">${data.username}</label>
+            <label class="thread_date">${data.date}</label>
+            ${
+              data.url
+                ? `<a href="${data.url}" target="_blank">
+                    <label class="thread_url">${data.url}</label></a>`
+                : ""
+            }
+                  <label class="thread_content">${data.msg}</label>
+            ${
+              session === data.session
+                ? `<button class="thread_delete" onclick="deleteItem(this)">delete</button>`
+                : ""
+            }
+          </div>
+        </div>
+        <hr />`;
 
-function addItem(data, li) {
-  if (data.msg) {
-    li.innerHTML = data.url
-      ? `<li>
-        <label class="thread_date">${data.date}</label>
-        <a href="${data.url}" target="_blank"
-        ><label class="thread_url">${data.url}</label></a>
-        <label class="thread_content">${data.msg}</label>
-        <hr />
-      </li>`
-      : `<li>
-        <label class="thread_date">${data.date}</label>
-        <label class="thread_content">${data.msg}</label>
-        <hr />
-      </li>`;
-    return li;
+  const button = li.querySelector("button");
+  if (button !== null) {
+    button.addEventListener("click", deleteItem);
+
+    function deleteItem(e) {
+      e.preventDefault();
+      chrome.runtime.sendMessage({ tag: "delete", id: data.id });
+    }
   }
+  return li;
 }
 
 function start() {
   chrome.runtime.sendMessage({ tag: "opened", page: page, size: size });
+}
+
+function isValidUrl(urlString) {
+  const urlPattern = /^(https?):\/\/(www\.)?(\w+)(\.\w+)/;
+  return urlPattern.test(urlString);
 }
